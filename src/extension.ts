@@ -24,7 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
 				{ // Webview options
 					// Enable scripts in the webview
 					enableScripts: true,
-					localResourceRoots: [vscode.Uri.joinPath(context.extensionUri, 'src', 'webViewContent'), vscode.Uri.joinPath(context.extensionUri, 'dist')]
+					localResourceRoots: [vscode.Uri.joinPath(context.extensionUri, 'static'), vscode.Uri.joinPath(context.extensionUri, 'dist')]
 				}
 			);
 
@@ -34,8 +34,8 @@ export function activate(context: vscode.ExtensionContext) {
 		// you must use the Webview.asWebviewUri function to convert a local file: URI into a special URI that VS Code can use to load a subset of local resources.
 		// And special URI to use when rendering local file into the webview
 		const webViewJS = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'dist', 'webViewContent.js'));
-		const webViewCSS = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src', 'webViewContent', 'main.css'));
-		const webViewSpriteUri = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'src', 'webViewContent', 'static', 'sprite.png'))
+		const webViewCSS = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'static', 'main.css'));
+		const webViewSpriteUri = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'static', 'sprite.png'))
 
 
 		const catState = [
@@ -90,7 +90,7 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 		})
 
-		// when panel is closed (or distroyed)
+		// when panel is closed (or destroyed)
 		panel.onDidDispose(
 			() => {
 				// code to run when the panel is closed
@@ -98,12 +98,13 @@ export function activate(context: vscode.ExtensionContext) {
 				keyListener.dispose()
 				if (resetter)
 					clearTimeout(resetter);
+
+				panel = undefined
 			},
 			null,
 			context.subscriptions
 		);
 	})
-
 
 	// The subscription ensures that your command is properly de-registered when your extension is unloaded.
 	// make sure all disposable object that an extension makes goes into subscription.
@@ -133,8 +134,6 @@ function getWebviewContent(spriteUri: vscode.Uri, jsUri: vscode.Uri, cssUri: vsc
 </body>
 <script src="${jsUri}"></script>
 </html>`
-
-
 	console.log(webviewContent)
 
 	return webviewContent

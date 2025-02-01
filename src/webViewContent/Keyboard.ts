@@ -5,18 +5,24 @@ import { spriteLocationData, coordinate } from "./types";
 export default class Keyboard extends Entity {
     private keyPressed: string
     // private action: string
-    constructor(log: string) {
+    constructor() {
         super(0, 0)
-        this.keyPressed = log;
-        // this.action = changeReason --> add `catAction: string` at the constructur later
+        this.keyPressed = '';
+        this._sx = 5000;
+        this._sy = 4500;
+    }
 
-        if (log in this.keyboardLocation) {
-            this._sx = this.keyboardLocation[log].x;
-            this._sy = this.keyboardLocation[log].y;
+    // inner logic of how we will assume which key was pressed based on the input log
+    private processKeyPressed(log: string) {
+        if (log == 'tab' || log == 'backSpace') {
+            this.keyPressed = log
         }
-        else {
-            this._sx = 5000;
-            this._sy = 4500;
+        else if (log.length <= 1) {
+            this.keyPressed = log
+        } else if (log.slice(0, 2) === '\r\n') {
+            this.keyPressed = '\r\n'
+        } else {
+            this.keyPressed = log[0]
         }
     }
 
@@ -70,17 +76,17 @@ export default class Keyboard extends Entity {
             flag = false
         }
 
+
         console.log(result)
         return result;
     }
 
     public updateKeyboard(changes: string) {
-        this.keyPressed = changes;
-        // this.action = changeReason --> add `catAction: string` at the constructur later
+        this.processKeyPressed(changes)
 
-        if (changes in this.keyboardLocation) {
-            this._sx = this.keyboardLocation[changes].x;
-            this._sy = this.keyboardLocation[changes].y;
+        if (this.keyPressed in this.keyboardLocation) {
+            this._sx = this.keyboardLocation[this.keyPressed].x;
+            this._sy = this.keyboardLocation[this.keyPressed].y;
         }
         else {
             this._sx = 5000;
@@ -118,6 +124,7 @@ export default class Keyboard extends Entity {
         'rShift': { x: 141, y: 213 },
         ' ': { x: 341, y: 242 },
         '\r\n': { x: 100, y: 222 },
+        '\n': { x: 100, y: 222 },
         '1': { x: 398, y: 350 },
         '2': { x: 369, y: 340 },
         '3': { x: 340, y: 335 },
@@ -232,6 +239,7 @@ export default class Keyboard extends Entity {
         'M': { x: 0, y: 2500 },
         ' ': { x: 0, y: 3000 },
         '\r\n': { x: 500, y: 3000 },
+        '\n': { x: 500, y: 3000 },
         '1': { x: 500, y: 2500 },
         '2': { x: 1000, y: 2500 },
         '3': { x: 1500, y: 2500 },

@@ -7,7 +7,7 @@ const CANVAS: HTMLCanvasElement = document.getElementById("mainCanvas") as HTMLC
 const CANVAS_SIZE = 500
 
 function main() {
-    let keyboard: Keyboard = new Keyboard('');
+    let keyboard: Keyboard = new Keyboard();
     console.log("main called")
 
     let cat = new Cat(keyboard.getKeyLocation())
