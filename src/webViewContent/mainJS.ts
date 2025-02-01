@@ -15,7 +15,6 @@ function main() {
     if (CANVAS) {
         CANVAS.height = CANVAS_SIZE
         CANVAS.width = CANVAS_SIZE
-        CANVAS.style.border = '5px solid red'
     }
 
     let drawer: Drawer = new Drawer(CANVAS, cat, keyboard)
