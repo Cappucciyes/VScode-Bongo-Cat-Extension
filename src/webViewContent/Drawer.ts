@@ -6,8 +6,6 @@ export default class Drawer {
     private canvasContext: CanvasRenderingContext2D;
     private spriteSource: HTMLImageElement;
     private scale: number
-    private spriteDefaultWidth: number
-    private spriteDefaultHeight: number
     public cat;
     public keyboard;
 
@@ -16,16 +14,12 @@ export default class Drawer {
         this.cat = cat;
         this.keyboard = keyboard;
         this.spriteSource = new Image();
-        this.spriteDefaultHeight = this.spriteSource.height
-        this.spriteDefaultWidth = this.spriteSource.width
 
         this.scale = Math.min(canvas.width / 500, 1)
     }
 
     public drawBeginningScreen() {
         this.spriteSource.onload = () => {
-            this.spriteDefaultHeight = this.spriteSource.height
-            this.spriteDefaultWidth = this.spriteSource.width
             this.canvasContext.drawImage(this.spriteSource, this.cat.sx, this.cat.sy, 500, 500, 0, 0, 500 * this.scale, 500 * this.scale);
             this.canvasContext.drawImage(this.spriteSource, this.keyboard.sx, this.keyboard.sy, 500, 500, 0, 0, 500 * this.scale, 500 * this.scale);
         }
@@ -36,7 +30,7 @@ export default class Drawer {
 
     public drawCatTyping() {
         this.canvasContext.clearRect(0, 0, 500 * this.scale, 500 * this.scale)
-        console.log(this.spriteSource.width, this.scale)
+
         this.canvasContext.drawImage(this.spriteSource, this.cat.sx, this.cat.sy, 500, 500, 0, 0, 500 * this.scale, 500 * this.scale);
         this.canvasContext.drawImage(this.spriteSource, this.keyboard.sx, this.keyboard.sy, 500, 500, 0, 0, 500 * this.scale, 500 * this.scale);
 
@@ -88,7 +82,6 @@ export default class Drawer {
 
     public updateScale(canvasSize: number) {
         this.scale = Math.min(canvasSize / 500, 1)
-        // console.log(this.spriteSource.width, canvasSize)
     }
 }
 
