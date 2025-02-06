@@ -4,7 +4,7 @@ import Drawer from './Drawer'
 
 
 const CANVAS: HTMLCanvasElement = document.getElementById("mainCanvas") as HTMLCanvasElement
-const CANVAS_SIZE = 500
+const DEFAULT_SIZE = 500
 
 function main() {
     let keyboard: Keyboard = new Keyboard();
@@ -13,18 +13,25 @@ function main() {
     let cat = new Cat(keyboard.getKeyLocation())
 
     if (CANVAS) {
-        CANVAS.height = CANVAS_SIZE
-        CANVAS.width = CANVAS_SIZE
+        CANVAS.height = Math.min(DEFAULT_SIZE, window.innerWidth)
+        CANVAS.width = Math.min(DEFAULT_SIZE, window.innerWidth)
     }
 
     let drawer: Drawer = new Drawer(CANVAS, cat, keyboard)
     drawer.drawBeginningScreen();
 
     window.addEventListener('resize', () => {
-        CANVAS.height = 500
-        CANVAS.width = 500;
+        if (window.innerWidth < 500) {
+            CANVAS.height = window.innerWidth
+            CANVAS.width = window.innerWidth;
+        }
+        else {
+            CANVAS.height = DEFAULT_SIZE
+            CANVAS.width = DEFAULT_SIZE;
+        }
 
-        drawer.drawBeginningScreen();
+        drawer.updateScale(CANVAS.width);
+        drawer.drawCatTyping();
     })
 
     window.addEventListener('message', (event) => {

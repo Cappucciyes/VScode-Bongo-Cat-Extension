@@ -5,6 +5,9 @@ import { coordinate, spriteLocationData } from "./types";
 export default class Drawer {
     private canvasContext: CanvasRenderingContext2D;
     private spriteSource: HTMLImageElement;
+    private scale: number
+    private spriteDefaultWidth: number
+    private spriteDefaultHeight: number
     public cat;
     public keyboard;
 
@@ -13,12 +16,18 @@ export default class Drawer {
         this.cat = cat;
         this.keyboard = keyboard;
         this.spriteSource = new Image();
+        this.spriteDefaultHeight = this.spriteSource.height
+        this.spriteDefaultWidth = this.spriteSource.width
+
+        this.scale = Math.min(canvas.width / 500, 1)
     }
 
     public drawBeginningScreen() {
         this.spriteSource.onload = () => {
-            this.canvasContext.drawImage(this.spriteSource, this.cat.sx, this.cat.sy, 500, 500, 0, 0, 500, 500);
-            this.canvasContext.drawImage(this.spriteSource, this.keyboard.sx, this.keyboard.sy, 500, 500, 0, 0, 500, 500);
+            this.spriteDefaultHeight = this.spriteSource.height
+            this.spriteDefaultWidth = this.spriteSource.width
+            this.canvasContext.drawImage(this.spriteSource, this.cat.sx, this.cat.sy, 500, 500, 0, 0, 500 * this.scale, 500 * this.scale);
+            this.canvasContext.drawImage(this.spriteSource, this.keyboard.sx, this.keyboard.sy, 500, 500, 0, 0, 500 * this.scale, 500 * this.scale);
         }
         let buffer = document.getElementById("sprite") as HTMLImageElement
         this.spriteSource.src = buffer.src;
@@ -26,9 +35,10 @@ export default class Drawer {
 
 
     public drawCatTyping() {
-        this.canvasContext.clearRect(0, 0, 500, 500)
-        this.canvasContext.drawImage(this.spriteSource, this.cat.sx, this.cat.sy, 500, 500, 0, 0, 500, 500);
-        this.canvasContext.drawImage(this.spriteSource, this.keyboard.sx, this.keyboard.sy, 500, 500, 0, 0, 500, 500);
+        this.canvasContext.clearRect(0, 0, 500 * this.scale, 500 * this.scale)
+        console.log(this.spriteSource.width, this.scale)
+        this.canvasContext.drawImage(this.spriteSource, this.cat.sx, this.cat.sy, 500, 500, 0, 0, 500 * this.scale, 500 * this.scale);
+        this.canvasContext.drawImage(this.spriteSource, this.keyboard.sx, this.keyboard.sy, 500, 500, 0, 0, 500 * this.scale, 500 * this.scale);
 
         if (this.cat.getCatState == 'right') {
             this.drawArms(this.cat.getRightArmPoints, this.keyboard.getKeyLocation()[0])
@@ -52,16 +62,16 @@ export default class Drawer {
         controlPoint = this.findCurveControlPoint(armData['startOuter'], armData['endOuter'], keyLocation)
         this.canvasContext.beginPath();
         this.canvasContext.fillStyle = "black";
-        this.canvasContext.moveTo(armData['startOuter'].x, armData['startOuter'].y);
-        this.canvasContext.quadraticCurveTo(controlPoint.x, controlPoint.y, armData["endOuter"].x, armData["endOuter"].y);
+        this.canvasContext.moveTo(armData['startOuter'].x * this.scale, armData['startOuter'].y * this.scale);
+        this.canvasContext.quadraticCurveTo(controlPoint.x * this.scale, controlPoint.y * this.scale, armData["endOuter"].x * this.scale, armData["endOuter"].y * this.scale);
         this.canvasContext.stroke();
         this.canvasContext.fill();
 
         controlPoint = this.findCurveControlPoint(armData['startInner'], armData['endInner'], keyLocation)
         this.canvasContext.beginPath();
         this.canvasContext.fillStyle = "white";
-        this.canvasContext.moveTo(armData['startInner'].x, armData['startInner'].y);
-        this.canvasContext.quadraticCurveTo(controlPoint.x, controlPoint.y, armData["endInner"].x, armData["endInner"].y);
+        this.canvasContext.moveTo(armData['startInner'].x * this.scale, armData['startInner'].y * this.scale);
+        this.canvasContext.quadraticCurveTo(controlPoint.x * this.scale, controlPoint.y * this.scale, armData["endInner"].x * this.scale, armData["endInner"].y * this.scale);
         this.canvasContext.stroke();
         this.canvasContext.fill();
     }
@@ -74,6 +84,11 @@ export default class Drawer {
         }
 
         return result
+    }
+
+    public updateScale(canvasSize: number) {
+        this.scale = Math.min(canvasSize / 500, 1)
+        // console.log(this.spriteSource.width, canvasSize)
     }
 }
 
