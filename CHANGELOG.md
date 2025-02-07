@@ -1,9 +1,10 @@
 # Change Log
+Keeps track of all the updates and changes implemented for each versions.
 
-All notable changes to the "typingcat" extension will be documented in this file.
+# version 0.0.2
+- Bongo cat's size is now dynamic
+    - Bongo cat will now shrink and/or grow along with the window's width (max 500px)
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-
+# version 0.0.1 
 - Initial release
+
