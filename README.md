@@ -4,7 +4,11 @@ Toy Project for practicing TypeScript. Created based on the base extension gener
 https://github.com/user-attachments/assets/7a60ea8b-7d44-4dd7-8f9f-07a6cdb9c596
 
 # Installation
-1. Download `typingcat-0.0.1.vsix` from repo
+## Downloading from VScode Marketplace:
+1. You can find it [here](https://marketplace.visualstudio.com/items?itemName=Cappucciyes.typingcat)
+
+## Manual Installation
+1. Download `typingcat-0.0.2.vsix` from repo
 2. In the terminal, type `code --install-extension /path/to/typingcat-0.0.1.vsix`
 
 check [here](https://code.visualstudio.com/docs/editor/extension-marketplace#_install-from-a-vsix) for more information about installing extension with vsix file
