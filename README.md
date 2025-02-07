@@ -3,6 +3,8 @@ Toy Project for practicing TypeScript. Created based on the base extension gener
 
 https://github.com/user-attachments/assets/7a60ea8b-7d44-4dd7-8f9f-07a6cdb9c596
 
+When activated, a window with Bongo Cat will open up next to the window you are currently working on. As you type, you can watch Bongo Cat typing on its keyboard whatever you are typing into! 
+
 # Installation
 ## Downloading from VScode Marketplace:
 1. You can find it [here](https://marketplace.visualstudio.com/items?itemName=Cappucciyes.typingcat)
